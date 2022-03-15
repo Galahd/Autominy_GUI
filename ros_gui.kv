@@ -1,0 +1,247 @@
+#:import get_color_from_hex kivy.utils.get_color_from_hex
+#:import Gradient kivy_gradient.Gradient
+
+<ContentNavigationDrawer>:
+
+    ScrollView:
+
+        MDList:
+
+            OneLineListItem:
+                text: "Screen 1"
+                on_press:
+                    root.nav_drawer.set_state("close")
+                    root.screen_manager.current = "scr 1"
+
+            OneLineListItem:
+                text: "Screen 2"
+                on_press:
+                    root.nav_drawer.set_state("close")
+                    root.screen_manager.current = "scr 2"
+
+
+Screen:
+    canvas:
+        Color:
+            rgba:(1,1,1,0.5)
+
+        RoundedRectangle:
+            source:'/home/aaron/autominy/catkin_ws/src/tutorial/Portrait.png'
+            pos: self.pos
+            size: self.size
+    MDToolbar:
+        id: toolbar
+        pos_hint: {"top": 1}
+        md_bg_color: (1,1,1,1) 
+        specific_text_color: (0,0,0,1)
+        elevation: 10
+        title: "Autominy"
+        left_action_items: [["menu", lambda x: nav_drawer.set_state("open")]]
+
+    MDNavigationLayout:
+        x: toolbar.height
+        
+        ScreenManager:
+            id: screen_manager
+            Screen:
+                name: "scr 1"
+                
+                MDBoxLayout: #Entorno Visualization
+                    size_hint: 0.45, 0.50
+                    pos_hint:{"center_x": 0.70, "center_y": 0.6}
+                    canvas:
+                        Color:
+                            rgba:(1,1,1,0.2)
+                        RoundedRectangle:
+                            pos: self.pos
+                            size: self.size 
+                            texture: 
+                                Gradient.vertical(
+                                get_color_from_hex("8b9598"), 
+                                get_color_from_hex("d6e4e8"),
+                                get_color_from_hex("d6e4e8"),
+                                get_color_from_hex("d6e4e8"),
+                                get_color_from_hex("d6e4e8"),  
+                                get_color_from_hex("8b9598")
+                                ) 
+                    MDTabs:
+                        id: tabs
+                        default_tab: 3
+                        tab_hint_x:True
+                        background_color:(128/255,128/255,128/255,1)
+                        indicator_color:(0,0,1,1)
+                        Tab:
+                            text: 'Camera'  
+                            # CameraPreview:
+                            #     id: camera_preview
+                            #     size: root.size                          
+                                
+                        Tab:
+                            text: 'LiDAR'
+                            MDLabel:
+                                text:'Hola mundo 2'
+                                text_color: 0, 0, 0, 1
+                                halign: "center"
+                               
+
+                       
+
+
+
+                MDFloatLayout: #Entorno Botones
+                    
+                    size_hint: 0.3, 0.3
+                    pos_hint:{"center_x": 0.3, "center_y": 0.2}
+                    canvas:
+                        Color:
+                            rgba:(1,1,1,0.2)
+                        RoundedRectangle:
+                            #source:'/home/aaron/autominy/catkin_ws/src/tutorial/sources/gradientev.png'
+                            pos: self.pos
+                            size: self.size 
+                            texture: 
+                                Gradient.vertical(
+                                get_color_from_hex("8e9eab"), 
+                                get_color_from_hex("d6e4e8"), 
+                                get_color_from_hex("d6e4e8"), 
+                                get_color_from_hex("d6e4e8"),
+                                get_color_from_hex("8e9eab")
+                                ) 
+
+                    MDIconButton:
+                        icon: "arrow-up-bold"
+                        user_font_size: "100sp"
+                        pos_hint: {"center_x": 0.5,"center_y": 0.8}
+                        on_press: app.forward_function(slider3.value) 
+
+                    MDIconButton:
+                        icon: "arrow-down-bold"
+                        user_font_size: "100sp"
+                        pos_hint: {"center_x": 0.5,"center_y": 0.2}  
+                        on_press: app.backward_function(slider3.value) 
+                        #on_release: app.stop2_funtion(*args)
+                    MDIconButton:
+                        icon: "arrow-right-bold"
+                        user_font_size: "100sp"
+                        pos_hint: {"center_x": 0.8, "center_y": 0.5}  
+                        on_press: app.right_function(slider3.value)
+                    MDIconButton:
+                        icon: "arrow-left-bold"
+                        user_font_size: "100sp"
+                        pos_hint: {"center_x": 0.2, "center_y": 0.5}
+                        on_press: app.left_function(slider3.value)
+                    MDFlatButton:
+                        canvas:
+                            Color:
+                                rgba:(1,0,0,0.76)
+
+                            RoundedRectangle:
+                                #source:'/home/aaron/autominy/catkin_ws/src/tutorial/sources/gradientevb.png'
+                                pos: self.pos
+                                size: self.size 
+                                texture: 
+                                    Gradient.vertical(
+                                    get_color_from_hex("E91E63"), 
+                                    get_color_from_hex("FCE4EC"), 
+                                    get_color_from_hex("2962FF")
+                                    )
+                        text: "STOP"
+                        text_color: (0,0,0,1) 
+                        pos_hint: {"center_x": 0.5, "center_y": 0.5}
+                        font_size: 55
+                        size_hint: 0.40,0.25
+                        on_press: app.stop_function(*args)
+                 
+                BoxLayout:  #Entorno Sliders
+                    orientation:'vertical'
+                    size_hint: 0.3, 0.25
+                    pos_hint: {"center_x": 0.7, "center_y": 0.19}
+                    canvas:
+                        Color:
+                            rgba:(1,1,1,0.2)
+
+                        RoundedRectangle:
+                            #source:'/home/aaron/autominy/catkin_ws/src/tutorial/sources/gradientev.png'
+                            pos: self.pos
+                            size: self.size 
+                            texture: 
+                                Gradient.horizontal(
+                                get_color_from_hex("8e9eab"), 
+                                get_color_from_hex("d6e4e8"), 
+                                get_color_from_hex("d6e4e8"), 
+                                get_color_from_hex("d6e4e8"),
+                                get_color_from_hex("8e9eab")
+                                )  
+                    MDLabel:
+                        text: "Normalized Speed: %.1f" %round(slider3.value, 2)
+                        halign: "center"
+                        pos: self.pos #{"center_x": 0.7, "center_y": 0.12}
+                        size: self.size #0.19, 0.09
+                        font_size: 30
+                    
+                    MDSlider:
+                        id: slider3 ##Normalized Speed
+                        min: -0.5
+                        max: 0.5
+                        step: 0.1
+                        value: 0
+                        hint:True
+                        size: self.size #0.29, 0.19
+                        pos: self.pos #{"center_x": 0.7, "center_y": 0.10}
+                        color: (0,0,0,1)
+                        padding: '2sp'
+                        on_touch_up:if self.collide_point(*args[1].pos): app.slider3_Function(self.value)
+
+                    MDLabel:
+                        text: "Speed: %s" %int(slider1.value)
+                        halign: "center"
+                        pos: self.pos #{"center_x": 0.7, "center_y": 0.31}
+                        size: self.size #0.19, 0.09
+                        font_size: 30
+                    MDSlider: 
+                        id: slider1  ##PWM SPEED
+                        min: -500
+                        max: 500
+                        value: 0
+                        hint:True
+                        size: self.size #0.29, 0.19
+                        pos: self.pos #{"center_x": 0.7, "center_y": 0.29}
+                        color: (0,0,0,1)
+                        padding: '2sp'
+                        #self.slider.bind(value = self.get_slider_value)
+                        #self.add_widget(self.slider)
+                        on_touch_up: if self.collide_point(*args[1].pos):app.slider1_Function(self.value)
+            
+                    MDLabel:
+                        text: "Steering: %s" %int(slider2.value)
+                        halign: "center"
+                        pos: self.pos #{"center_x": 0.7, "center_y": 0.12}
+                        size: self.size #0.19, 0.09
+                        font_size: 30
+                    MDSlider:
+                        id: slider2 ##PWM STEERING 
+                        min: 950
+                        max: 2150
+                        value: 1550
+                        hint:True
+                        size: self.size #0.29, 0.19
+                        pos: self.pos #{"center_x": 0.7, "center_y": 0.10}
+                        color: (0,0,0,1)
+                        padding: '2sp'
+                        on_touch_up:if self.collide_point(*args[1].pos): app.slider2_Function(self.value)
+                    
+                    
+
+            Screen:
+                name: "scr 2"
+
+                MDLabel:
+                    text: "Screen 2"
+                    halign: "center"
+
+        MDNavigationDrawer:
+            id: nav_drawer
+
+            ContentNavigationDrawer:
+                screen_manager: screen_manager
+                nav_drawer: nav_drawer
