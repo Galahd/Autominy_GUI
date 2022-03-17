@@ -1,0 +1,8 @@
+###Lista de Comandos para habilidara la interfaz del autominy###
+
+
+rosrun tutorial gui.py		 ###Habilita la interfaz de control
+
+
+rosrun web_video_server web_video_server  ##Habilida el nodo de la cámara para visulizarlo por el puerto localhost:8080
+
